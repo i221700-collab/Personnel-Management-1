@@ -56,6 +56,17 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonar-scanner'
+                    withSonarQubeEnv('SonarQube-server') {
+                        bat "\"${scannerHome}\\bin\\sonar-scanner\""
+                    }
+                }
+            }
+        }
+
         stage('Archive') {
             steps {
                 archiveArtifacts artifacts: 'dist/**/*', allowEmptyArchive: true
